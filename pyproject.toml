@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grok-auditor"
+version = "1.0.0"
+description = "Grok XAI 4-Agent Code Project Auditor — transforms basic code into enterprise-grade software"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.30.0",
+    "pydantic>=2.7.0",
+    "rich>=13.7.0",
+    "typer>=0.12.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
+    "torch>=2.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-mock>=3.14.0",
+]
+
+[project.scripts]
+grok-auditor = "grok_auditor.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
