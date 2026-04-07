@@ -96,7 +96,7 @@ class ArchitectAgent:
             f"enterprise improvements:{lang_hint}\n\n```\n{code}\n```"
         )
 
-        logger.info("[%s] Analysing architecture (%d chars)…", self.name, len(code))
+        logger.info("[%s] Analyzing architecture (%d chars)…", self.name, len(code))
         raw = await self._client.chat(_SYSTEM_PROMPT, user_message)
 
         try:

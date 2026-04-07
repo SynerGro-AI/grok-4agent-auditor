@@ -133,13 +133,16 @@ def audit(
     source: Optional[Path] = typer.Argument(
         None,
         help="Path to the source file to audit. Reads from stdin if omitted.",
-        exists=False,
     ),
     language: Optional[str] = typer.Option(
         None, "--language", "-l", help="Override language hint (e.g. python, javascript)."
     ),
     output: Optional[Path] = typer.Option(
-        None, "--output", "-o", help="Write full JSON report to this file."
+        None, "--output", "-o", help="Write full JSON report to this file. "
+        "Defaults to <output_dir>/<source_stem>_report.json when --auto-save is set."
+    ),
+    auto_save: bool = typer.Option(
+        False, "--auto-save", help="Automatically save outputs to the configured output_dir."
     ),
     save_refactor: Optional[Path] = typer.Option(
         None, "--save-refactor", help="Write the refactored source code to this file."
@@ -195,7 +198,15 @@ def audit(
 
     _print_report(report)
 
-    # Optional outputs
+    # Optional outputs — resolve defaults from config.output_dir when --auto-save is set
+    stem = source.stem if source else "stdin"
+    if auto_save and output is None:
+        output = config.output_dir / f"{stem}_report.json"
+    if auto_save and save_refactor is None:
+        save_refactor = config.output_dir / f"{stem}_refactored.py"
+    if auto_save and save_tests is None:
+        save_tests = config.output_dir / f"{stem}_tests.py"
+
     if output:
         report.save(output)
         console.print(f"[dim]Full JSON report written to {output}[/dim]")

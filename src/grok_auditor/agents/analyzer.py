@@ -62,9 +62,9 @@ class AnalyzerAgent:
 
     async def run(self, code: str, *, language: Optional[str] = None) -> AnalysisResult:
         lang_hint = f"\nDetected/provided language: {language}" if language else ""
-        user_message = f"Analyse the following source code:{lang_hint}\n\n```\n{code}\n```"
+        user_message = f"Analyze the following source code:{lang_hint}\n\n```\n{code}\n```"
 
-        logger.info("[%s] Analysing code (%d chars)…", self.name, len(code))
+        logger.info("[%s] Analyzing code (%d chars)…", self.name, len(code))
         raw = await self._client.chat(_SYSTEM_PROMPT, user_message)
 
         try:

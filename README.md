@@ -76,11 +76,14 @@ grok-auditor audit my_script.py
 # Specify language hint
 grok-auditor audit app.js --language javascript
 
-# Save full JSON report + refactored code + test scaffold
+# Save full JSON report + refactored code + test scaffold to explicit paths
 grok-auditor audit legacy_module.py \
     --output reports/report.json \
     --save-refactor reports/refactored.py \
     --save-tests   reports/test_refactored.py
+
+# Or use --auto-save to write all outputs to AUDITOR_OUTPUT_DIR (default: audit_output/)
+grok-auditor audit legacy_module.py --auto-save
 
 # Read from stdin (pipe)
 cat my_code.py | grok-auditor audit
